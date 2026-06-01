@@ -1,0 +1,33 @@
+name: build
+
+on:
+  push:
+    branches: [ master, dev ]
+  pull_request:
+    branches: [ master, dev ]
+
+jobs:
+
+  brew:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-14, macos-15, macos-26, ubuntu-24.04]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - run: install -d ~/.m2/repository
+
+      - run: |
+          set -ex
+
+          for item in abseil-20230125.3 libphonenumber-8.13.18 libprotobuf-23.4
+          do
+            curl -LO https://github.com/leleliu008/ndk-pkg-prefab-aar-maven-repo/releases/download/2023.08.14.00.12/2023.08.14.00.12-com-fpliu-ndk-pkg-prefab-android-21-$item.tar.xz
+            tar vxf 2023.08.14.00.12-com-fpliu-ndk-pkg-prefab-android-21-$item.tar.xz --strip-components=1 -C ~/.m2/repository
+          done
+
+      - run: ./gradlew assembleRelease
