@@ -3,14 +3,20 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
+    }
+}
+
 android {
     namespace = "com.fpliu.android.ndk.pkg.prefab.example.libphonenumber"
-    compileSdk = 33
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.fpliu.android.ndk.pkg.prefab.example.libphonenumber"
         minSdk = 21
-        targetSdk = 33
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -36,11 +42,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-
-    ndkVersion = "25.2.9519653"
+    ndkVersion = "27.3.13750724"
 
     externalNativeBuild {
         cmake {
